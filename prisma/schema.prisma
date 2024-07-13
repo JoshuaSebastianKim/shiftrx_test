@@ -13,6 +13,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  bids  Bid[]
+}
+
 model Auction {
   id            Int      @id @default(autoincrement())
   title         String   @db.VarChar(200)
@@ -22,4 +28,15 @@ model Auction {
   endTime       DateTime
   createdAt     DateTime
   updatedAt     DateTime
+  bids          Bid[]
+}
+
+model Bid {
+  id        Int      @id @default(autoincrement())
+  auction   Auction  @relation(fields: [auctionId], references: [id])
+  auctionId Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  amount    Decimal  @db.Money
+  createdAt DateTime
 }
