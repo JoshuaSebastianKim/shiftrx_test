@@ -1,6 +1,14 @@
 import rescue from 'express-rescue';
 import { Router } from 'express';
-import { createAuction, deleteAuction, getAuctionById, getAuctions, updateAuction } from './auction.services';
+import {
+  createAuction,
+  createBid,
+  deleteAuction,
+  getAuctionById,
+  getAuctions,
+  getBids,
+  updateAuction,
+} from './auction.services';
 import { Auction } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 
@@ -69,6 +77,32 @@ router.delete(
     res.json({
       message: 'Auction Deleted.',
     });
+  }),
+);
+
+router.post(
+  '/:id/bid',
+  rescue(async (req, res) => {
+    const { id: auctionId } = req.params;
+    const { id: userId } = res.locals.payload;
+    const { amount } = req.body;
+
+    // TO-DO: validate amount is greater than current price
+
+    const bid = await createBid(auctionId, userId, amount);
+
+    res.json(bid);
+  }),
+);
+
+router.get(
+  '/:id/bids',
+  rescue(async (req, res) => {
+    const { id: auctionId } = req.params;
+
+    const bids = await getBids(auctionId);
+
+    res.json(bids);
   }),
 );
 

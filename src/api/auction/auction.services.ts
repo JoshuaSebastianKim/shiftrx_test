@@ -42,3 +42,28 @@ export const deleteAuction = (id: string, userId: string) =>
       userId,
     },
   });
+
+export const createBid = (auctionId: string, userId: string, amount: number) => {
+  const date = new Date(Date.now());
+
+  return prisma.bid.create({
+    data: {
+      auctionId: Number(auctionId),
+      userId,
+      amount,
+      createdAt: date,
+    },
+  });
+};
+
+export const getBids = (auctionId: string) =>
+  prisma.bid.findMany({
+    where: {
+      auctionId: Number(auctionId),
+    },
+    orderBy: [
+      {
+        amount: 'desc',
+      },
+    ],
+  });

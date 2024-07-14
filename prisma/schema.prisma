@@ -56,4 +56,6 @@ model Bid {
   userId    String
   amount    Decimal  @db.Money
   createdAt DateTime
+
+  @@index([auctionId])
 }
