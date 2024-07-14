@@ -35,7 +35,7 @@ router.post('/sign-up', rescue(async (req, res, next) => {
 
     await addRefreshTokenToWhitelist({ jwtId, refreshToken, userId: user.id })
 
-    res.status(StatusCodes.OK).json({
+    res.json({
         accessToken, refreshToken
     });
 }));
@@ -108,8 +108,6 @@ router.post('/refresh-token', rescue(async (req, res, next) => {
     }
 
     const user = await findUserById(payload.id);
-
-    console.log(user)
 
     if (!user) {
         return next({

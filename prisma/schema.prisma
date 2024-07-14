@@ -21,6 +21,7 @@ model User {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   bids          Bid[]
+  auctions      Auction[]
 }
 
 model RefreshToken {
@@ -43,6 +44,8 @@ model Auction {
   createdAt     DateTime
   updatedAt     DateTime @updatedAt
   bids          Bid[]
+  User          User     @relation(fields: [userId], references: [id])
+  userId        String
 }
 
 model Bid {
