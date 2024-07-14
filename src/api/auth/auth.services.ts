@@ -1,35 +1,46 @@
 import prisma from '@/lib/prisma';
 import { hashToken } from '@/utils/hashToken';
 
-export const addRefreshTokenToWhitelist = ({ jwtId, refreshToken, userId }: { jwtId: string, refreshToken: string, userId: string }) =>
-    prisma.refreshToken.create({
-        data: {
-            id: jwtId,
-            hashedToken: hashToken(refreshToken),
-            userId
-        },
-    });
+export const addRefreshTokenToWhitelist = ({
+  jwtId,
+  refreshToken,
+  userId,
+}: {
+  jwtId: string;
+  refreshToken: string;
+  userId: string;
+}) =>
+  prisma.refreshToken.create({
+    data: {
+      id: jwtId,
+      hashedToken: hashToken(refreshToken),
+      userId,
+    },
+  });
 
-export const findRefreshTokenById = (id: string) => prisma.refreshToken.findUnique({
+export const findRefreshTokenById = (id: string) =>
+  prisma.refreshToken.findUnique({
     where: {
-        id
-    }
-});
+      id,
+    },
+  });
 
-export const deleteRefreshToken = (id: string) => prisma.refreshToken.update({
+export const deleteRefreshToken = (id: string) =>
+  prisma.refreshToken.update({
     where: {
-        id,
+      id,
     },
     data: {
-        revoked: true
-    }
-});
+      revoked: true,
+    },
+  });
 
-export const revokeTokens = (userId: string) => prisma.refreshToken.updateMany({
+export const revokeTokens = (userId: string) =>
+  prisma.refreshToken.updateMany({
     where: {
-        userId
+      userId,
     },
     data: {
-        revoked: true
-    }
-});
+      revoked: true,
+    },
+  });
