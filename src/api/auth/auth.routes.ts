@@ -53,7 +53,7 @@ router.post(
     await addRefreshTokenToWhitelist({ jwtId, refreshToken, userId: user.id });
 
     res.cookie('access_token', accessToken, {
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
     });
 
     res.json({
@@ -107,7 +107,7 @@ router.post(
     await addRefreshTokenToWhitelist({ jwtId, refreshToken, userId: existingUser.id });
 
     res.cookie('access_token', accessToken, {
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
     });
 
     res.json({
@@ -163,7 +163,7 @@ router.post(
     await addRefreshTokenToWhitelist({ jwtId, refreshToken: newRefreshToken, userId: user.id });
 
     res.cookie('access_token', accessToken, {
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
     });
 
     res.json({

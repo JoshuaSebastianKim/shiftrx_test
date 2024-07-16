@@ -10,9 +10,10 @@ type JWTPayload = {
   email: string;
 };
 
-const generateAccessToken = (payload: JWTPayload) => jwt.sign(payload, SECRET, { expiresIn: '1h', algorithm: 'HS256' });
+const generateAccessToken = (payload: JWTPayload) =>
+  jwt.sign(payload, SECRET, { expiresIn: '24h', algorithm: 'HS256' });
 const generateRefreshToken = (payload: JWTPayload, jwtId: String) =>
-  jwt.sign({ ...payload, jwtId }, REFRESH_SECRET, { expiresIn: '8h' });
+  jwt.sign({ ...payload, jwtId }, REFRESH_SECRET, { expiresIn: '48h' });
 const generateTokens = (payload: JWTPayload, jwtId: String) => {
   const accessToken = generateAccessToken(payload);
   const refreshToken = generateRefreshToken(payload, jwtId);
