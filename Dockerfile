@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:lts-alpine AS builder
 
 RUN corepack enable && corepack prepare yarn@4.3.1
 

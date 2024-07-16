@@ -17,8 +17,27 @@ services:
       db:
         condition: service_started
     environment:
-      - API_PORT=3000
+      - API_PORT=3001
       - DATABASE_URL=postgresql://postgres:1234@db:5432/shiftrx?schema=public
+      - JWT_SECRET=SECRET123
+      - JWT_REFRESH_SECRET=ANOTHER_SECRET123
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+    ports:
+      - '3001:3001'
+
+  next:
+    depends_on:
+      app:
+        condition: service_started
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    volumes:
+      - ./next:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       - '3000:3000'
 

@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8000",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
@@ -17,7 +17,8 @@
     "react-cookie": "^7.1.4",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@headlessui/react": "^2.1.2",

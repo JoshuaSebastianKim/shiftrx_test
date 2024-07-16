@@ -10,7 +10,7 @@ describe('JWT', () => {
       const payload = { id: '1', email: 'test@test.com' };
       const token = jwtLib.generateAccessToken(payload);
 
-      expect(token).toEqual(jwt.sign(payload, SECRET, { expiresIn: '1h', algorithm: 'HS256' }));
+      expect(token).toEqual(jwt.sign(payload, SECRET, { expiresIn: '24h', algorithm: 'HS256' }));
     });
   });
 
@@ -20,7 +20,7 @@ describe('JWT', () => {
       const payload = { id: '1', email: 'test@test.com' };
       const token = jwtLib.generateRefreshToken(payload, jwtId);
 
-      expect(token).toEqual(jwt.sign({ ...payload, jwtId }, REFRESH_SECRET, { expiresIn: '8h' }));
+      expect(token).toEqual(jwt.sign({ ...payload, jwtId }, REFRESH_SECRET, { expiresIn: '48h' }));
     });
   });
 

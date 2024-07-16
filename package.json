@@ -12,7 +12,7 @@
     "dev": "tsx watch --clear-screen=false src/index.ts",
     "db:sync": "prisma db push",
     "db:seed": "prisma db seed",
-    "test": "jest --watch"
+    "test": "jest"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
