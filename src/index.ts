@@ -1,8 +1,8 @@
 import express, { urlencoded, json } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import apiRouter from './api/router';
-import errorMiddleware from './middlewares/error';
+import apiRouter from '@/api/router';
+import errorMiddleware from '@/middlewares/error';
 
 const port = process.env.API_PORT || 8000;
 const app = express();

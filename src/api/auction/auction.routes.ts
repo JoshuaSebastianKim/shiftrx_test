@@ -8,7 +8,7 @@ import {
   getAuctions,
   getBids,
   updateAuction,
-} from './auction.services';
+} from '@/api/auction/auction.services';
 import { Auction } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
 import authMiddleware from '@/middlewares/auth';

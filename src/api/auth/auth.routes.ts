@@ -5,8 +5,8 @@ import { StatusCodes } from 'http-status-codes';
 import rescue from 'express-rescue';
 import jwt from '@/utils/jwt';
 import { hashToken } from '@/utils/hashToken';
-import { createUserByEmailAndPassword, findUserByEmail, findUserById } from '../users/user.services';
-import { addRefreshTokenToWhitelist, deleteRefreshToken, findRefreshTokenById } from './auth.services';
+import { createUserByEmailAndPassword, findUserByEmail, findUserById } from '@/api/users/user.services';
+import { addRefreshTokenToWhitelist, deleteRefreshToken, findRefreshTokenById } from '@/api/auth/auth.services';
 
 const router = Router();
 

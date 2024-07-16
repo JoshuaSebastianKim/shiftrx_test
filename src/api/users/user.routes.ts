@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import rescue from 'express-rescue';
 import type { User } from '@prisma/client';
-import { findUserById } from './user.services';
+import { findUserById } from '@/api/users/user.services';
+import { getAuctionByUser, getBidsByUser } from '@/api/auction/auction.services';
 import authMiddleware from '@/middlewares/auth';
-import { getAuctionByUser, getBidsByUser } from '../auction/auction.services';
 
 const router = Router();
 

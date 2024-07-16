@@ -1,10 +1,17 @@
 {
   "name": "technical_test-shiftrx",
   "packageManager": "yarn@4.3.1",
-  "main": "dist/index.js",
+  "main": "index.js",
   "type": "module",
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
-    "dev": "tsx watch --clear-screen=false src/index.ts"
+    "start": "npm run db:sync && npm run build && tsx dist/index.js",
+    "build": "rimraf ./dist && tsc",
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "db:sync": "prisma db push",
+    "db:seed": "prisma db seed"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
@@ -20,6 +27,7 @@
     "eslint": "^9.6.0",
     "prettier": "^3.3.2",
     "prisma": "^5.16.2",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "typescript-eslint": "^7.16.0"
