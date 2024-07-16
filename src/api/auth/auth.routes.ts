@@ -7,13 +7,28 @@ import jwt from '@/utils/jwt';
 import { hashToken } from '@/utils/hashToken';
 import { createUserByEmailAndPassword, findUserByEmail, findUserById } from '@/api/users/user.services';
 import { addRefreshTokenToWhitelist, deleteRefreshToken, findRefreshTokenById } from '@/api/auth/auth.services';
+import Joi from 'joi';
 
 const router = Router();
+
+const schema = Joi.object({
+  email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }),
+  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+});
 
 router.post(
   '/sign-up',
   rescue(async (req, res, next) => {
     const { email, password } = req.body;
+
+    try {
+      await schema.validateAsync({ email, password });
+    } catch (error) {
+      return next({
+        status: StatusCodes.BAD_REQUEST,
+        message: error,
+      });
+    }
 
     if (!email || !password) {
       return next({
@@ -52,6 +67,15 @@ router.post(
   '/login',
   rescue(async (req, res, next) => {
     const { email, password } = req.body;
+
+    try {
+      await schema.validateAsync({ email, password });
+    } catch (error) {
+      return next({
+        status: StatusCodes.BAD_REQUEST,
+        message: error,
+      });
+    }
 
     if (!email || !password) {
       return next({
