@@ -9,7 +9,7 @@
 
 ```
 docker-compose up
-npx prisma db seed # to seed database
+docker-compose run app npm run db:seed # to seed database
 ```
 
 ## Usage
