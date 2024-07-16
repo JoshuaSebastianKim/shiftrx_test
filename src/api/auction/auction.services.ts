@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import type { Auction } from '@prisma/client';
+import { StatusCodes } from 'http-status-codes';
 
 export const getAuctions = () => prisma.auction.findMany();
 
@@ -7,6 +8,13 @@ export const getAuctionById = (id: string) =>
   prisma.auction.findUnique({
     where: {
       id: Number(id),
+    },
+  });
+
+export const getAuctionByUser = (userId: string) =>
+  prisma.auction.findMany({
+    where: {
+      userId,
     },
   });
 
@@ -43,18 +51,39 @@ export const deleteAuction = (id: string, userId: string) =>
     },
   });
 
-export const createBid = (auctionId: string, userId: string, amount: number) => {
-  const date = new Date(Date.now());
+export const createBid = async (auctionId: string, userId: string, amount: number) =>
+  prisma.$transaction(async (tx) => {
+    const auction = await tx.auction.findUnique({
+      where: {
+        id: Number(auctionId),
+      },
+    });
 
-  return prisma.bid.create({
-    data: {
-      auctionId: Number(auctionId),
-      userId,
-      amount,
-      createdAt: date,
-    },
+    if (!auction) {
+      throw { status: StatusCodes.NOT_FOUND, message: 'Auction not found.' };
+    }
+
+    if (Number(auction.currentPrice) >= amount) {
+      throw { status: StatusCodes.BAD_REQUEST, message: 'Auction current price is greater than submitted amount.' };
+    }
+
+    // Update current price to new amount
+    await tx.auction.update({
+      where: { id: Number(auctionId) },
+      data: { currentPrice: amount },
+    });
+
+    const date = new Date(Date.now());
+
+    return prisma.bid.create({
+      data: {
+        auctionId: Number(auctionId),
+        userId,
+        amount,
+        createdAt: date,
+      },
+    });
   });
-};
 
 export const getBids = (auctionId: string) =>
   prisma.bid.findMany({
@@ -66,4 +95,11 @@ export const getBids = (auctionId: string) =>
         amount: 'desc',
       },
     ],
+  });
+
+export const getBidsByUser = (userId: string) =>
+  prisma.bid.findMany({
+    where: {
+      userId,
+    },
   });

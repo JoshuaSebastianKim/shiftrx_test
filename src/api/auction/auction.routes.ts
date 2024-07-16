@@ -11,6 +11,7 @@ import {
 } from './auction.services';
 import { Auction } from '@prisma/client';
 import { StatusCodes } from 'http-status-codes';
+import authMiddleware from '@/middlewares/auth';
 
 const router = Router();
 
@@ -25,6 +26,7 @@ router.get(
 
 router.post(
   '/',
+  authMiddleware,
   rescue(async (req, res) => {
     const { title, description, startingPrice, endTime } = req.body;
     const { id } = res.locals.payload;
@@ -55,6 +57,7 @@ router.get(
 
 router.put(
   '/:id',
+  authMiddleware,
   rescue(async (req, res) => {
     const { id } = req.params;
     const { id: userId } = res.locals.payload;
@@ -68,6 +71,7 @@ router.put(
 
 router.delete(
   '/:id',
+  authMiddleware,
   rescue(async (req, res) => {
     const { id } = req.params;
     const { id: userId } = res.locals.payload;
@@ -82,12 +86,11 @@ router.delete(
 
 router.post(
   '/:id/bid',
+  authMiddleware,
   rescue(async (req, res) => {
     const { id: auctionId } = req.params;
     const { id: userId } = res.locals.payload;
     const { amount } = req.body;
-
-    // TO-DO: validate amount is greater than current price
 
     const bid = await createBid(auctionId, userId, amount);
 

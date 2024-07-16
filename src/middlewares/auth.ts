@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import jwt from '../utils/jwt';
 
 export default (req: Request, res: Response, next: NextFunction) => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization?.split(' ')[1] || req.cookies.access_token;
 
   if (!token)
     return next({
@@ -12,7 +12,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     });
 
   try {
-    const data = jwt.verifyToken(token.split(' ')[1]);
+    const data = jwt.verifyToken(token);
     res.locals.payload = data;
     return next();
   } catch {
