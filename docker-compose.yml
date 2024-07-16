@@ -9,13 +9,18 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   app:
     container_name: app
     build:
       context: .
     depends_on:
       db:
-        condition: service_started
+        condition: service_healthy
     environment:
       - API_PORT=3001
       - DATABASE_URL=postgresql://postgres:1234@db:5432/shiftrx?schema=public
