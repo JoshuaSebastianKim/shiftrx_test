@@ -14,6 +14,12 @@ npx prisma db seed # to seed database
 
 ## Usage
 
+To access application use the followin URL.
+
+```
+http://localhost:3000
+```
+
 After running the db seed an admin user will be created with the follow credentials.
 
 ```
