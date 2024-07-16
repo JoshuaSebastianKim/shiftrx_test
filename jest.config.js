@@ -5,4 +5,5 @@ export default {
     '^.+.tsx?$': ['ts-jest', {}],
   },
   roots: ['<rootDir>'],
+  modulePathIgnorePatterns: ['<rootDir>/next/'],
 };
